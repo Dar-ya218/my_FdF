@@ -6,7 +6,7 @@
 /*   By: dabochko <dabochko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 16:27:31 by dabochko          #+#    #+#             */
-/*   Updated: 2024/05/30 14:31:49 by dabochko         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:46:53 by dabochko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,34 @@ typedef struct s_matrix
 }   t_matrix;
 
 t_matrix	create_matrix(t_vector vx, t_vector vy, t_vector vz);
+
+// Color
+int	create_color(int c);
+
+// Line
+
+typedef struct s_line
+{
+	t_vector  *start;
+	t_vector  *end;
+	int  color;
+}   t_line;
+
+t_line	*create_line(t_vector *start, t_vector *end, int color);
+
+// Mlx
+
+typedef struct s_vars
+{
+    void  *mlx;
+    void  *win;
+}  t_vars;
+
+typedef struct s_data
+{
+    void  *img;
+    char  *addr;
+    int  bits_per_pixel;
+    int  line_length;
+    int  endian;
+}   t_data;
