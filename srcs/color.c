@@ -31,3 +31,34 @@ void	reset_colors(t_object *object, int *allow_flag, int stop)
 		i++;
 	}
 }
+
+void	set_color(t_object *object)
+{
+	t_point	*point;
+	int		allow_flag;
+	int		stop;
+
+	point = object->points;
+	allow_flag = 0;
+	stop = object->columns * object->rows;
+	while (point)
+	{
+		if (point->vector.z == 0)
+			point->color = 0x00ffFFff;
+		else if (point->vector.z > 0)
+			point->color = 0x00ff00ff;
+		else
+			point->color = 0x0000ffFF;
+		point = point->next;
+	}
+	reset_colors(object, &allow_flag, stop);
+}
+/*
+int main() {
+    int nc = 0xFF0000; 
+
+    int new_color = create_color(nc);
+    printf("Nuevo color: %X\n", new_color);
+
+    return 0;
+}*/
