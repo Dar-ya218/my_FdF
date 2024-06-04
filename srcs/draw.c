@@ -16,3 +16,38 @@ t_line    *create_line(t_vector *start, t_vector *end, int color)
     line->color = color;
     return (line);
 }
+
+void draw_line(t_line *line, t_vars *vars)
+{
+    int dx, dy, p, x, y, x2, y2;
+
+    dx = line->end->x - line->start->x;
+    dy = line->end->y - line->start->y;
+    p = 2 * dy - dx;
+    if(line->start->x > line->end->x)
+    {
+        x = line->end->x;
+        y = line->end->y;
+        x2 = line->start->x;
+    }
+    else
+    {
+        x = line->start->x;
+        y = line->start->y;
+        x2 = line->end->x;
+        y2 = line->end->y;
+    }
+    mlx_pixel_put(vars->mlx, vars->win, x, y, line->color);
+    while(x < x2)
+    {
+        x++;
+        if(p < 0)
+            p = p + 2 * dy;
+        else
+        {
+            y++;
+            p = p + 2 * dy - 2 * dx;
+        }
+        mlx_pixel_put(vars->mlx, vars->win, x, y, line->color);
+    }
+}
