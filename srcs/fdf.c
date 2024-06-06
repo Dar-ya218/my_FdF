@@ -78,3 +78,31 @@ int destroy_active_window(t_vars *vars)
     vars->win = NULL;
     exit(0);
 }
+
+int create_key(int keycode, t_vars *vars)
+{
+    if (keycode == KEY_ESC)
+        destroy_active_window(vars);
+	return (0);
+}
+
+float	get_scale(int rows, int columns)
+{
+	float	row_scale;
+	float	column_scale;
+
+	row_scale = HEIGTH * 0.8 / rows;
+	column_scale = LENGHT * 0.8 / columns;
+	if (row_scale < column_scale)
+		return (row_scale);
+	else
+		return (column_scale);
+}
+
+void draw_object(t_object *object, t_vars *vars) {
+    t_point *point = object->points;
+    while (point) {
+        mlx_pixel_put(vars->mlx, vars->win, point->vector.x, point->vector.y, 0xFFFFFF); // 0xFFFFFF es el color blanco
+        point = point->next;
+    }
+}  
