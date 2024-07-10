@@ -9,79 +9,97 @@
 /*   Updated: 2024/05/31 14:46:53 by dabochko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef FDF_H
 # define FDF_H
 
-# include "libft.h"
-# include "get_next_line.h"
-# include "ft_printf.h"
+# include "../libs/mlx_linux/mlx.h"
+# include "../libs/ft_printf/inc/ft_printf.h"
+# include "../libs/libft/src/get_next_line.h"
+# include "../libs/libft/src/libft.h"
 # include <fcntl.h>
 # include <math.h>
+# include <sys/stat.h>
 
 // MACROS
-# define WIDTH 1024
-# define HEIGHT 1024
 # ifndef ENDIANESS
-#  define ENDIANESS 0 //0: little, 1: big
-
-# define LENGHT 1920
-# define HEIGTH 1080
+#  define ENDIANESS 0 // 0: little, 1: big0
 
 // Keycodes
 
-#  define KEY_ESC 53
-
 # endif
+# define KEY_ESC 65307
+# define KEY_8 65431
+# define KEY_8T 56
+# define KEY_2 65433
+# define KEY_2T 50
+# define KEY_4 65430
+# define KEY_4T 52
+# define KEY_6 65432
+# define KEY_6T 54
+# define KEY_PLUS 65451
+# define KEY_PLUST 43
+# define KEY_MINUS 65453
+# define KEY_MINUST 45
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_5 65437
+# define KEY_5T 53
+# define KEY_SPACE 32
+# define KEY_F 102
 
 // STRUCTURES
-// Vector
-typedef struct s_vector
+
+typedef struct s_fdf
 {
-    float  x;
-    float  y;
-    float  z;
-}   t_vector;
+	float	x;
+	float	y;
+	float	z;
+	int		is_last;
+	int		color;
+	int		scale;
+	int		z_scale;
+	int		shift_x;
+	int		shift_y;
+	int		is_isometric;
+	double	angle;
+	int		win_x;
+	int		win_y;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img_ptr;
+	char	*addr;
+	int		size_line;
+	int		bpp;
+	int		endian;
+	char	*line;
+	int		rows;
+	int		cols;
+}			t_fdf;
 
-t_vector	create_vector(float x, float y, float z);
+void		new_window(int key, t_fdf **matrix);
+int			deal_key(int key, t_fdf **matrix);
+void		draw_matrix(t_fdf **matrix, int rows, int cols);
+void		ft_error(char *error);
+void		isometric(t_fdf *fdf, double angle);
+void		print_menu(t_fdf param);
+t_fdf		**read_file(char *filename);
+void		set_param(t_fdf *a, t_fdf *b, t_fdf *param);
+int			max(int a, int b);
+int			mod(int a);
+int			ft_strcmp(const char *s1, const char *s2);
+void		get_dimensions(int fd, int *rows, int *cols);
+void		free_matrix(t_fdf **matrix, int rows);
 
-// Matrix
-typedef struct s_matrix
-{
-    t_vector  vx;
-    t_vector  vy;
-    t_vector  vz;
-}   t_matrix;
+// KEYS
+void		handle_angle_keys(int key, t_fdf **matrix);
+void		handle_scale_keys(int key, t_fdf **matrix);
+void		handle_shift_keys(int key, t_fdf **matrix);
+void		handle_z_scale_keys(int key, t_fdf **matrix);
+void		handle_isometric_keys(int key, t_fdf **matrix);
+void		check_file_status(int fd);
+int			close_window(t_fdf **param);
+int			extension_fdf(char *filename);
 
-t_matrix	create_matrix(t_vector vx, t_vector vy, t_vector vz);
-
-// Color
-int	create_color(int c);
-
-// Line
-
-typedef struct s_line
-{
-	t_vector  *start;
-	t_vector  *end;
-	int  color;
-}   t_line;
-
-t_line	*create_line(t_vector *start, t_vector *end, int color);
-
-// Mlx
-
-typedef struct s_vars
-{
-    void  *mlx;
-    void  *win;
-}  t_vars;
-
-typedef struct s_data
-{
-    void  *img;
-    char  *addr;
-    int  bits_per_pixel;
-    int  line_length;
-    int  endian;
-}   t_data;
+#endif
